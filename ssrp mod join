@@ -1,5 +1,4 @@
--- SSRP mod join notifier, can be used for any other game as long as you change the values
-print("comphub notifier started - morecomp runs this game")
+print("comphub notifier ran - morecomp runs this game")
 
 local GROUP_ID = 2935212
 local MIN_RANK = 25
@@ -85,6 +84,9 @@ local function CreateNotification(text)
     end)
 end
 
+-- Start
+CreateNotification("Comphub mod notifier loaded")
+
 local function CheckPlayer(plr)
     local rank = plr:GetRankInGroup(GROUP_ID) or 0
     if rank >= MIN_RANK then
@@ -109,3 +111,27 @@ game.Players.PlayerAdded:Connect(function(plr)
     task.wait(1)
     CheckPlayer(plr)
 end)
+
+
+        CreateNotification("STAFF+ Joined: " .. plr.Name .. "\nRank: " .. rank)
+    end
+end
+
+task.wait(1)
+local localPlayer = game.Players.LocalPlayer
+local localRank = localPlayer:GetRankInGroup(GROUP_ID) or 0
+if localRank >= MIN_RANK then
+    CreateNotification("YOU are Staff+ (Rank " .. localRank .. ")")
+end
+
+for _, plr in ipairs(game.Players:GetPlayers()) do
+    if plr ~= localPlayer then
+        CheckPlayer(plr)
+    end
+end
+
+game.Players.PlayerAdded:Connect(function(plr)
+    task.wait(1)
+    CheckPlayer(plr)
+end)
+
