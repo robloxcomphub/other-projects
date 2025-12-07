@@ -90,7 +90,7 @@ CreateNotification("comphub notifier started - morecomp runs this game")
 local function CheckPlayer(plr)
     local rank = plr:GetRankInGroup(GROUP_ID) or 0
     if rank >= MIN_RANK then
-        CreateNotification("STAFF+ Joined: " .. plr.Name .. "\nRank: " .. rank)
+        CreateNotification("A staff member Joined: " .. plr.Name .. "\nRank: " .. rank)
     end
 end
 
@@ -98,7 +98,7 @@ task.wait(1)
 local localPlayer = game.Players.LocalPlayer
 local localRank = localPlayer:GetRankInGroup(GROUP_ID) or 0
 if localRank >= MIN_RANK then
-    CreateNotification("YOU are Staff+ (Rank " .. localRank .. ")")
+    CreateNotification("You're a staff member.. get out bro (Rank " .. localRank .. ")")
 end
 
 for _, plr in ipairs(game.Players:GetPlayers()) do
