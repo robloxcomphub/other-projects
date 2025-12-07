@@ -2,6 +2,8 @@
 --// SSRP mod joiner notifier
 --//==============================
 
+print("Comphub mod notifier booted")
+
 local GROUP_ID = 2935212
 local MIN_RANK = 25
 
