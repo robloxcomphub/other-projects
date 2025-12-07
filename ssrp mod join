@@ -87,7 +87,7 @@ local function CreateNotification(text)
 end
 
 local function CheckPlayer(plr)
-    local rank = plr:GetRankInGroup(GROUP_ID)
+    local rank = plr:GetRankInGroup(GROUP_ID) or 0
     if rank >= MIN_RANK then
         CreateNotification("STAFF+ Joined: " .. plr.Name .. "\nRank: " .. rank)
     end
@@ -95,7 +95,7 @@ end
 
 task.wait(1)
 local localPlayer = game.Players.LocalPlayer
-local localRank = localPlayer:GetRankInGroup(GROUP_ID)
+local localRank = localPlayer:GetRankInGroup(GROUP_ID) or 0
 if localRank >= MIN_RANK then
     CreateNotification("YOU are Staff+ (Rank " .. localRank .. ")")
 end
