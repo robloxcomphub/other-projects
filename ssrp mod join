@@ -3,7 +3,7 @@
 --//==============================
 
 local GROUP_ID = 2935212
-local MIN_RANK = 25 -- Staff in Training and above
+local MIN_RANK = 1 -- Staff in Training and above
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "StaffPlusNotifierUI"
