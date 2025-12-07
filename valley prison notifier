@@ -1,0 +1,120 @@
+-- // made by morecompthanyou, SSRP (SCP: Site Roleplay) mod notifier. Look on scriptblox to see more info!
+
+print("comphub notifier ran - morecomp runs this game")
+
+local GROUP_ID = 33269521
+local MIN_RANK = 10
+
+local CoreGui = game:GetService("CoreGui")
+local NotificationGui = Instance.new("ScreenGui")
+NotificationGui.Name = "StaffPlus_Notifications"
+NotificationGui.Parent = CoreGui
+
+local notificationSpacing = 6
+local notifications = {}
+
+local function CreateNotification(text)
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 260, 0, 60)
+    frame.Position = UDim2.new(1, 0, 1, 0)
+    frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    frame.BorderSizePixel = 0
+    frame.BackgroundTransparency = 0.15
+    frame.Parent = NotificationGui
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, -10, 1, -10)
+    label.Position = UDim2.new(0, 5, 0, 5)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.Font = Enum.Font.SourceSansBold
+    label.TextSize = 18
+    label.TextWrapped = true
+    label.Text = text
+    label.Parent = frame
+
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://5613195800"
+    sound.Volume = 1
+    sound.Parent = frame
+    sound:Play()
+
+    table.insert(notifications, frame)
+
+    for i, notif in ipairs(notifications) do
+        notif:TweenPosition(
+            UDim2.new(1, -270, 1, -((i - 1) * (60 + notificationSpacing) + 80)),
+            Enum.EasingDirection.Out,
+            Enum.EasingStyle.Sine,
+            0.4,
+            true
+        )
+    end
+
+    frame:TweenPosition(
+        UDim2.new(1, -270, 1, -(0 * (60 + notificationSpacing) + 80)),
+        Enum.EasingDirection.Out,
+        Enum.EasingStyle.Back,
+        0.45,
+        true
+    )
+
+    task.delay(4.5, function()
+        frame:TweenPosition(
+            UDim2.new(1, 0, frame.Position.Y.Scale, frame.Position.Y.Offset),
+            Enum.EasingDirection.In,
+            Enum.EasingStyle.Sine,
+            0.35,
+            true
+        )
+
+        task.wait(0.35)
+
+        for i, notif in ipairs(notifications) do
+            if notif == frame then
+                table.remove(notifications, i)
+                break
+            end
+        end
+
+        frame:Destroy()
+
+        for i, notif in ipairs(notifications) do
+            notif:TweenPosition(
+                UDim2.new(1, -270, 1, -((i - 1) * (60 + notificationSpacing) + 80)),
+                Enum.EasingDirection.Out,
+                Enum.EasingStyle.Sine,
+                0.35,
+                true
+            )
+        end
+    end)
+end
+
+CreateNotification("Comphub mod notifier loaded")
+
+local function CheckPlayer(plr)
+    local rank = plr:GetRankInGroup(GROUP_ID) or 0
+    if rank >= MIN_RANK then
+        CreateNotification("STAFF+ Joined: " .. plr.Name .. "\nRank: " .. rank)
+    end
+end
+
+task.wait(1)
+local localPlayer = game.Players.LocalPlayer
+local localRank = localPlayer:GetRankInGroup(GROUP_ID) or 0
+if localRank >= MIN_RANK then
+    CreateNotification("YOU are Staff+ (Rank " .. localRank .. ")")
+end
+
+for _, plr in ipairs(game.Players:GetPlayers()) do
+    if plr ~= localPlayer then
+        CheckPlayer(plr)
+    end
+end
+
+game.Players.PlayerAdded:Connect(function(plr)
+    task.wait(1)
+    CheckPlayer(plr)
+end)
