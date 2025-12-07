@@ -1,8 +1,5 @@
---//==============================
---// SSRP mod joiner notifier
---//==============================
-
-print("Comphub mod notifier booted")
+-- SSRP mod join notifier, can be used for any other game as long as you change the values
+print("comphub mod scanner started")
 
 local GROUP_ID = 2935212
 local MIN_RANK = 25
