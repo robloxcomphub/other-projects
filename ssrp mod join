@@ -1,0 +1,82 @@
+--//==============================
+--// SSRP mod joiner notifier
+--//==============================
+
+local GROUP_ID = 2935212
+local MIN_RANK = 25 -- Staff in Training and above
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "StaffPlusNotifierUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = game.CoreGui
+
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 300, 0, 160)
+Frame.Position = UDim2.new(0.5, -150, 0.1, 0)
+Frame.BackgroundColor3 = Color3.fromRGB(25,25,25)
+Frame.BorderSizePixel = 0
+Frame.Active = true
+Frame.Draggable = true
+Frame.Parent = ScreenGui
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.BackgroundTransparency = 1
+Title.Text = "Staff+ Join Notifier"
+Title.TextColor3 = Color3.fromRGB(255,255,255)
+Title.Font = Enum.Font.Code
+Title.TextSize = 20
+Title.Parent = Frame
+
+local Info = Instance.new("TextLabel")
+Info.Size = UDim2.new(1, -10, 0, 40)
+Info.Position = UDim2.new(0, 5, 0, 35)
+Info.BackgroundTransparency = 1
+Info.TextWrapped = true
+Info.Text = "Monitoring rank >= "..MIN_RANK.." in group "..GROUP_ID.."..."
+Info.TextColor3 = Color3.fromRGB(200,200,200)
+Info.Font = Enum.Font.Code
+Info.TextSize = 16
+Info.Parent = Frame
+
+local Log = Instance.new("TextLabel")
+Log.Size = UDim2.new(1, -10, 0, 70)
+Log.Position = UDim2.new(0, 5, 0, 80)
+Log.BackgroundTransparency = 1
+Log.TextWrapped = true
+Log.Text = "Status: Waiting..."
+Log.TextColor3 = Color3.fromRGB(180,180,180)
+Log.Font = Enum.Font.Code
+Log.TextSize = 16
+Log.Parent = Frame
+
+local function Notify(message)
+    Log.Text = message
+    print("[Staff+ Notifier] " .. message)
+
+    if syn and syn.toast_notification then
+        syn.toast_notification({
+            Type = "info",
+            Title = "Staff+ Notifier",
+            Content = message
+        })
+    end
+end
+
+task.spawn(function()
+    for _, plr in ipairs(game.Players:GetPlayers()) do
+        local rank = plr:GetRankInGroup(GROUP_ID)
+        if rank >= MIN_RANK then
+            Notify(plr.Name .. " already in server (Staff+ detected)")
+        end
+    end
+end)
+
+game.Players.PlayerAdded:Connect(function(plr)
+    task.wait(1)
+    local rank = plr:GetRankInGroup(GROUP_ID)
+
+    if rank >= MIN_RANK then
+        Notify("STAFF+ ALERT: "..plr.Name.." joined (Rank "..rank..")")
+    end
+end)
