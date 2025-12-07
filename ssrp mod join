@@ -1,5 +1,4 @@
--- SSRP mod join notifier, can be used for any other game as long as you change the values
-print("comphub notifier started - morecomp runs this game")
+print("comphub notifier ran - morecomp runs this game")
 
 local GROUP_ID = 2935212
 local MIN_RANK = 25
@@ -33,11 +32,17 @@ local function CreateNotification(text)
     label.Text = text
     label.Parent = frame
 
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://5613195800"
+    sound.Volume = 1
+    sound.Parent = frame
+    sound:Play()
+
     table.insert(notifications, frame)
 
     for i, notif in ipairs(notifications) do
         notif:TweenPosition(
-            UDim2.new(1, -270, 1, -((i-1)*(60 + notificationSpacing) + 80)),
+            UDim2.new(1, -270, 1, -((i - 1) * (60 + notificationSpacing) + 80)),
             Enum.EasingDirection.Out,
             Enum.EasingStyle.Sine,
             0.4,
@@ -46,7 +51,7 @@ local function CreateNotification(text)
     end
 
     frame:TweenPosition(
-        UDim2.new(1, -270, 1, -( (1-1)*(60+notificationSpacing) + 80 )),
+        UDim2.new(1, -270, 1, -(0 * (60 + notificationSpacing) + 80)),
         Enum.EasingDirection.Out,
         Enum.EasingStyle.Back,
         0.45,
@@ -75,7 +80,7 @@ local function CreateNotification(text)
 
         for i, notif in ipairs(notifications) do
             notif:TweenPosition(
-                UDim2.new(1, -270, 1, -( (i-1)*(60+notificationSpacing) + 80 )),
+                UDim2.new(1, -270, 1, -((i - 1) * (60 + notificationSpacing) + 80)),
                 Enum.EasingDirection.Out,
                 Enum.EasingStyle.Sine,
                 0.35,
@@ -85,12 +90,12 @@ local function CreateNotification(text)
     end)
 end
 
-CreateNotification("comphub notifier started - morecomp runs this game")
+CreateNotification("Comphub mod notifier loaded")
 
 local function CheckPlayer(plr)
     local rank = plr:GetRankInGroup(GROUP_ID) or 0
     if rank >= MIN_RANK then
-        CreateNotification("A staff member Joined: " .. plr.Name .. "\nRank: " .. rank)
+        CreateNotification("STAFF+ Joined: " .. plr.Name .. "\nRank: " .. rank)
     end
 end
 
@@ -98,7 +103,7 @@ task.wait(1)
 local localPlayer = game.Players.LocalPlayer
 local localRank = localPlayer:GetRankInGroup(GROUP_ID) or 0
 if localRank >= MIN_RANK then
-    CreateNotification("You're a staff member.. get out bro (Rank " .. localRank .. ")")
+    CreateNotification("YOU are Staff+ (Rank " .. localRank .. ")")
 end
 
 for _, plr in ipairs(game.Players:GetPlayers()) do
