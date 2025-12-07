@@ -1,6 +1,7 @@
 --//==============================
 --// SSRP mod joiner notifier
 --//==============================
+
 local GROUP_ID = 2935212
 local MIN_RANK = 25
 
