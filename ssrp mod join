@@ -97,7 +97,7 @@ CreateNotification("Comphub mod notifier loaded")
 local function CheckPlayer(plr)
     local rank = plr:GetRankInGroup(GROUP_ID) or 0
     if rank >= MIN_RANK then
-        CreateNotification("STAFF+ Joined: " .. plr.Name .. "\nRank: " .. rank)
+        CreateNotification("A staff member joined: " .. plr.Name .. "\nRank: " .. rank)
     end
 end
 
